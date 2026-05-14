@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flowcel — Local Data Processing Tool</title>
+<meta name="description" content="Build powerful data pipelines locally. No cloud, no limits, full privacy.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0F172A; --card:#1E293B; --card2:#263045;
+    --border:#334155; --text:#E2E8F0; --muted:#64748B; --muted2:#94A3B8;
+    --accent:#3B82F6; --accent2:#60A5FA; --green:#22C55E;
+    --font:'Inter',system-ui,sans-serif; --r:10px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font);
+    font-size:15px; line-height:1.6; }
+  a { color:var(--accent2); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+
+  /* ── NAV ── */
+  nav {
+    position:sticky; top:0; z-index:100;
+    background:rgba(15,23,42,0.9); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    padding:0 5%; display:flex; align-items:center;
+    justify-content:space-between; height:60px;
+  }
+  .nav-logo { font-size:18px; font-weight:800; color:var(--accent2); letter-spacing:-.5px; }
+  .nav-links { display:flex; gap:28px; align-items:center; }
+  .nav-links a { color:var(--muted2); font-size:14px; font-weight:500; }
+  .nav-links a:hover { color:var(--text); text-decoration:none; }
+  .lang-sw { display:flex; gap:4px; }
+  .lang-sw button {
+    background:none; border:1px solid transparent; color:var(--muted);
+    padding:3px 8px; border-radius:6px; font-size:12px; cursor:pointer;
+    font-family:var(--font); transition:all .15s;
+  }
+  .lang-sw button.active { border-color:var(--accent); color:var(--accent2); }
+
+  /* ── HERO ── */
+  .hero {
+    padding:100px 5% 80px;
+    text-align:center;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, #1d3a5e44, transparent);
+  }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:999px; padding:4px 14px; font-size:12px;
+    color:var(--muted2); margin-bottom:24px;
+  }
+  .hero h1 {
+    font-size:clamp(36px,6vw,64px); font-weight:800;
+    line-height:1.1; letter-spacing:-.03em;
+    margin-bottom:20px;
+  }
+  .hero h1 span { color:var(--accent2); }
+  .hero p {
+    font-size:clamp(16px,2vw,20px); color:var(--muted2);
+    max-width:560px; margin:0 auto 40px;
+  }
+  .hero-btns { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 28px; border-radius:var(--r); font-size:15px;
+    font-weight:600; cursor:pointer; border:none; font-family:var(--font);
+    transition:all .15s; text-decoration:none !important;
+  }
+  .btn-primary { background:var(--accent); color:#fff; }
+  .btn-primary:hover { background:#2563EB; }
+  .btn-outline { background:transparent; color:var(--muted2); border:1px solid var(--border); }
+  .btn-outline:hover { border-color:var(--accent); color:var(--accent2); }
+
+  /* ── SCREENSHOT ── */
+  .screenshot-wrap {
+    max-width:960px; margin:60px auto 0;
+    padding:0 5%;
+  }
+  .screenshot {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:16px; overflow:hidden;
+    box-shadow:0 32px 80px #00000080;
+  }
+  .screenshot-bar {
+    background:var(--card2); padding:10px 16px;
+    display:flex; align-items:center; gap:6px;
+    border-bottom:1px solid var(--border);
+  }
+  .dot { width:10px; height:10px; border-radius:50%; }
+  .screenshot-body {
+    padding:32px; display:flex; gap:16px; min-height:280px;
+    align-items:center; justify-content:center;
+  }
+  .mock-col {
+    background:var(--bg); border:1px solid var(--border);
+    border-radius:8px; flex:1; height:220px;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .mock-head {
+    background:var(--card2); padding:8px 12px;
+    font-size:10px; font-weight:700; color:var(--muted);
+    letter-spacing:.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--border);
+  }
+  .mock-body { padding:10px; flex:1; display:flex; flex-direction:column; gap:6px; }
+  .mock-step {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:6px; padding:6px 10px; font-size:11px;
+    color:var(--muted2); display:flex; align-items:center; gap:6px;
+  }
+  .mock-step-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+  .mock-table { display:flex; flex-direction:column; gap:2px; }
+  .mock-row { display:flex; gap:4px; }
+  .mock-cell {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:3px; padding:3px 6px; font-size:10px;
+    color:var(--muted2); flex:1; text-align:center;
+  }
+  .mock-cell.header { background:var(--card2); color:var(--text); font-weight:600; }
+
+  /* ── FEATURES ── */
+  .section { padding:80px 5%; max-width:1100px; margin:0 auto; }
+  .section-title {
+    font-size:clamp(24px,4vw,36px); font-weight:800;
+    text-align:center; margin-bottom:12px; letter-spacing:-.02em;
+  }
+  .section-sub {
+    text-align:center; color:var(--muted2); margin-bottom:56px;
+    font-size:16px; max-width:500px; margin-left:auto; margin-right:auto;
+  }
+  .features-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+  }
+  .feature-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--r); padding:24px;
+    transition:border-color .15s;
+  }
+  .feature-card:hover { border-color:var(--accent); }
+  .feature-icon { font-size:28px; margin-bottom:12px; }
+  .feature-title { font-size:16px; font-weight:700; margin-bottom:8px; }
+  .feature-desc { font-size:14px; color:var(--muted2); line-height:1.6; }
+
+  /* ── PRICING ── */
+  .pricing-wrap {
+    padding:80px 5%; background:var(--card);
+    border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  }
+  .pricing-inner { max-width:800px; margin:0 auto; }
+  .pricing-grid {
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:24px; margin-top:48px;
+  }
+  @media(max-width:600px) { .pricing-grid { grid-template-columns:1fr; } }
+  .plan-card {
+    background:var(--bg); border:1px solid var(--border);
+    border-radius:var(--r); padding:28px;
+  }
+  .plan-card.featured {
+    border-color:var(--accent);
+    background:linear-gradient(135deg,#1d3a5e22,var(--bg));
+  }
+  .plan-name { font-size:13px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; }
+  .plan-price { font-size:40px; font-weight:800; letter-spacing:-.03em; margin-bottom:4px; }
+  .plan-price span { font-size:16px; font-weight:500; color:var(--muted2); }
+  .plan-desc { font-size:13px; color:var(--muted2); margin-bottom:24px; }
+  .plan-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+  .plan-features li { font-size:14px; display:flex; gap:8px; align-items:flex-start; }
+  .plan-features li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+  .plan-features li.no::before { content:'—'; color:var(--muted); }
+
+  /* ── DOWNLOAD ── */
+  .download-wrap { padding:80px 5%; text-align:center; max-width:700px; margin:0 auto; }
+  .dl-grid { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:32px; }
+  .dl-btn {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--r); padding:20px 32px;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    transition:border-color .15s; text-decoration:none !important;
+    min-width:180px;
+  }
+  .dl-btn:hover { border-color:var(--accent); }
+  .dl-btn-icon { font-size:32px; }
+  .dl-btn-os { font-size:16px; font-weight:700; color:var(--text); }
+  .dl-btn-ver { font-size:12px; color:var(--muted); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top:1px solid var(--border); padding:32px 5%;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:16px; color:var(--muted); font-size:13px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">✦ Flowcel</span>
+  <div class="nav-links">
+    <a href="#features" data-t="nav_features">Features</a>
+    <a href="#pricing" data-t="nav_pricing">Pricing</a>
+    <a href="download.html" data-t="nav_download">Download</a>
+  </div>
+  <div class="lang-sw">
+    <button onclick="setLang('en')" id="lb-en" class="active">EN</button>
+    <button onclick="setLang('ru')" id="lb-ru">RU</button>
+    <button onclick="setLang('hy')" id="lb-hy">ՀԱՅ</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ <span data-t="badge">100% Local Processing</span></div>
+  <h1 data-t="hero_title">Transform your data<br><span>without the cloud</span></h1>
+  <p data-t="hero_sub">Build powerful data pipelines visually. Your files never leave your machine.</p>
+  <div class="hero-btns">
+    <a href="download.html" class="btn btn-primary" data-t="btn_download">⬇ Download Free</a>
+    <a href="#pricing" class="btn btn-outline" data-t="btn_pricing">View pricing</a>
+  </div>
+
+  <!-- App mockup -->
+  <div class="screenshot-wrap">
+    <div class="screenshot">
+      <div class="screenshot-bar">
+        <div class="dot" style="background:#EF4444"></div>
+        <div class="dot" style="background:#F59E0B"></div>
+        <div class="dot" style="background:#22C55E"></div>
+        <span style="font-size:11px;color:var(--muted);margin-left:8px">Flowcel</span>
+      </div>
+      <div class="screenshot-body">
+        <div class="mock-col" style="max-width:180px">
+          <div class="mock-head">Files</div>
+          <div class="mock-body">
+            <div class="mock-step"><div class="mock-step-dot" style="background:#3B82F6"></div>sales_2026.xlsx</div>
+            <div class="mock-step"><div class="mock-step-dot" style="background:#8B5CF6"></div>customers.csv</div>
+          </div>
+        </div>
+        <div class="mock-col" style="max-width:200px">
+          <div class="mock-head">Pipeline</div>
+          <div class="mock-body">
+            <div class="mock-step"><div class="mock-step-dot" style="background:#3B82F6"></div>📂 Load File</div>
+            <div class="mock-step"><div class="mock-step-dot" style="background:#8B5CF6"></div>🔗 Join</div>
+            <div class="mock-step"><div class="mock-step-dot" style="background:#F59E0B"></div>🔍 Filter</div>
+            <div class="mock-step"><div class="mock-step-dot" style="background:#10B981"></div>🧮 Math</div>
+            <div class="mock-step"><div class="mock-step-dot" style="background:#EF4444"></div>📊 Aggregate</div>
+          </div>
+        </div>
+        <div class="mock-col">
+          <div class="mock-head">Preview</div>
+          <div class="mock-body">
+            <div class="mock-table">
+              <div class="mock-row">
+                <div class="mock-cell header">Name</div>
+                <div class="mock-cell header">Revenue</div>
+                <div class="mock-cell header">Region</div>
+              </div>
+              <div class="mock-row">
+                <div class="mock-cell">Alice</div>
+                <div class="mock-cell" style="color:#22C55E">$12,400</div>
+                <div class="mock-cell">North</div>
+              </div>
+              <div class="mock-row">
+                <div class="mock-cell">Bob</div>
+                <div class="mock-cell" style="color:#22C55E">$9,800</div>
+                <div class="mock-cell">South</div>
+              </div>
+              <div class="mock-row">
+                <div class="mock-cell">Carol</div>
+                <div class="mock-cell" style="color:#F59E0B">$6,200</div>
+                <div class="mock-cell">East</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-title" data-t="features_title">Everything you need</div>
+  <div class="section-sub" data-t="features_sub">A complete data transformation toolkit that runs entirely on your machine.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title" data-t="f1_title">100% Private</div>
+      <div class="feature-desc" data-t="f1_desc">Your data never leaves your computer. No uploads, no cloud, no privacy concerns.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title" data-t="f2_title">Blazing Fast</div>
+      <div class="feature-desc" data-t="f2_desc">Powered by pandas — process millions of rows locally with full CPU and RAM power.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔗</div>
+      <div class="feature-title" data-t="f3_title">Visual Pipelines</div>
+      <div class="feature-desc" data-t="f3_desc">Build multi-step data pipelines visually. No code required.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📂</div>
+      <div class="feature-title" data-t="f4_title">All Formats</div>
+      <div class="feature-desc" data-t="f4_desc">Excel, CSV, JSON, XML, Parquet, SQLite, ODS, HTML — import and export anything.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <div class="feature-title" data-t="f5_title">AI-Powered</div>
+      <div class="feature-desc" data-t="f5_desc">Describe your pipeline in plain language and AI builds it for you.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⏰</div>
+      <div class="feature-title" data-t="f6_title">Scheduling</div>
+      <div class="feature-desc" data-t="f6_desc">Automate pipeline runs on a schedule. Set it and forget it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<div class="pricing-wrap" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-title" data-t="pricing_title">Simple pricing</div>
+    <div class="section-sub" data-t="pricing_sub">Start free, upgrade when you need more.</div>
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <div class="plan-name" data-t="plan_free">Free</div>
+        <div class="plan-price">$0</div>
+        <div class="plan-desc" data-t="plan_free_desc">Forever free, no credit card needed.</div>
+        <ul class="plan-features">
+          <li data-t="free_f1">2 files</li>
+          <li data-t="free_f2">1,000 rows</li>
+          <li data-t="free_f3">10 pipeline steps</li>
+          <li data-t="free_f4">1 pipeline</li>
+          <li class="no" data-t="free_f5">No export</li>
+          <li class="no" data-t="free_f6">No AI features</li>
+          <li class="no" data-t="free_f7">No scheduling</li>
+        </ul>
+        <a href="download.html" class="btn btn-outline" style="width:100%;justify-content:center" data-t="btn_download_free">⬇ Download Free</a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-name" style="color:var(--accent2)" data-t="plan_pro">Pro</div>
+        <div class="plan-price">$39 <span data-t="per_year">/ year</span></div>
+        <div class="plan-desc" data-t="plan_pro_desc">Everything you need for serious data work.</div>
+        <ul class="plan-features">
+          <li data-t="pro_f1">Unlimited files & rows</li>
+          <li data-t="pro_f2">Unlimited steps & pipelines</li>
+          <li data-t="pro_f3">All export formats</li>
+          <li data-t="pro_f4">AI pipeline builder</li>
+          <li data-t="pro_f5">Scheduling</li>
+          <li data-t="pro_f6">Row trace & debugging</li>
+          <li data-t="pro_f7">Priority support</li>
+        </ul>
+        <a href="https://buy.polar.sh/polar_cl_uZrawJVc1Aot6MslrFxrzly7y1QrpZXIqWRJ5486tym"
+          data-polar-checkout data-polar-checkout-theme="dark"
+          class="btn btn-primary" style="width:100%;justify-content:center" data-t="btn_subscribe">⚡ Subscribe $39/yr</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD -->
+<div class="download-wrap" id="download">
+  <div class="section-title" data-t="dl_title">Download Flowcel</div>
+  <p style="color:var(--muted2);margin-top:12px" data-t="dl_sub">Free to download. No account required.</p>
+  <div class="dl-grid">
+    <a href="download.html" class="dl-btn">
+      <div class="dl-btn-icon">🍎</div>
+      <div class="dl-btn-os">macOS</div>
+      <div class="dl-btn-ver" data-t="dl_ver">v1.0.0 · Intel & Apple Silicon</div>
+    </a>
+    <a href="download.html" class="dl-btn">
+      <div class="dl-btn-icon">🪟</div>
+      <div class="dl-btn-os">Windows</div>
+      <div class="dl-btn-ver" data-t="dl_ver_win">v1.0.0 · 64-bit</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span>✦ Flowcel © 2026</span>
+  <div style="display:flex;gap:20px">
+    <a href="mailto:octadroid2026@gmail.com" data-t="footer_support">Support</a>
+    <a href="https://polar.sh/octadroidlabs/portal" data-t="footer_manage">Manage subscription</a>
+    <a href="privacy.html" data-t="footer_privacy">Privacy Policy</a>
+    <a href="terms.html" data-t="footer_terms">Terms & Conditions</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@polar-sh/checkout@0.1/dist/embed.global.js" defer data-auto-init></script>
+<script>
+const TRANSLATIONS = {
+  en: {
+    nav_features:'Features', nav_pricing:'Pricing', nav_download:'Download',
+    badge:'100% Local Processing',
+    hero_title:'Transform your data<br><span>without the cloud</span>',
+    hero_sub:'Build powerful data pipelines visually. Your files never leave your machine.',
+    btn_download:'⬇ Download Free', btn_pricing:'View pricing',
+    features_title:'Everything you need',
+    features_sub:'A complete data transformation toolkit that runs entirely on your machine.',
+    f1_title:'100% Private', f1_desc:'Your data never leaves your computer. No uploads, no cloud, no privacy concerns.',
+    f2_title:'Blazing Fast', f2_desc:'Powered by pandas — process millions of rows locally with full CPU and RAM power.',
+    f3_title:'Visual Pipelines', f3_desc:'Build multi-step data pipelines visually. No code required.',
+    f4_title:'All Formats', f4_desc:'Excel, CSV, JSON, XML, Parquet, SQLite, ODS, HTML — import and export anything.',
+    f5_title:'AI-Powered', f5_desc:'Describe your pipeline in plain language and AI builds it for you.',
+    f6_title:'Scheduling', f6_desc:'Automate pipeline runs on a schedule. Set it and forget it.',
+    pricing_title:'Simple pricing', pricing_sub:'Start free, upgrade when you need more.',
+    plan_free:'Free', plan_free_desc:'Forever free, no credit card needed.',
+    free_f1:'2 files', free_f2:'1,000 rows', free_f3:'10 pipeline steps',
+    free_f4:'1 pipeline', free_f5:'No export', free_f6:'No AI features', free_f7:'No scheduling',
+    plan_pro:'Pro', plan_pro_desc:'Everything you need for serious data work.',
+    per_year:'/ year',
+    pro_f1:'Unlimited files & rows', pro_f2:'Unlimited steps & pipelines',
+    pro_f3:'All export formats', pro_f4:'AI pipeline builder',
+    pro_f5:'Scheduling', pro_f6:'Row trace & debugging', pro_f7:'Priority support',
+    btn_download_free:'⬇ Download Free', btn_subscribe:'⚡ Subscribe $39/yr',
+    dl_title:'Download Flowcel', dl_sub:'Free to download. No account required.',
+    dl_ver:'v1.0.0 · Intel & Apple Silicon', dl_ver_win:'v1.0.0 · 64-bit',
+    footer_support:'Support', footer_manage:'Manage subscription', footer_privacy:'Privacy Policy', footer_terms:'Terms & Conditions',
+  },
+  ru: {
+    nav_features:'Возможности', nav_pricing:'Цены', nav_download:'Скачать',
+    badge:'100% локальная обработка',
+    hero_title:'Обрабатывайте данные<br><span>без облака</span>',
+    hero_sub:'Создавайте мощные конвейеры данных визуально. Ваши файлы никогда не покидают компьютер.',
+    btn_download:'⬇ Скачать бесплатно', btn_pricing:'Цены',
+    features_title:'Всё что нужно',
+    features_sub:'Полный набор инструментов для обработки данных, работающий полностью на вашем компьютере.',
+    f1_title:'100% конфиденциально', f1_desc:'Ваши данные никогда не покидают компьютер. Без загрузок, без облака.',
+    f2_title:'Молниеносно быстро', f2_desc:'На основе pandas — обрабатывайте миллионы строк локально.',
+    f3_title:'Визуальные конвейеры', f3_desc:'Создавайте многошаговые конвейеры визуально. Без кода.',
+    f4_title:'Все форматы', f4_desc:'Excel, CSV, JSON, XML, Parquet, SQLite, ODS, HTML — импорт и экспорт всего.',
+    f5_title:'На основе ИИ', f5_desc:'Опишите конвейер простыми словами — ИИ построит его за вас.',
+    f6_title:'Планировщик', f6_desc:'Автоматизируйте запуски конвейера по расписанию.',
+    pricing_title:'Простые цены', pricing_sub:'Начните бесплатно, обновитесь когда понадобится.',
+    plan_free:'Бесплатно', plan_free_desc:'Бесплатно навсегда, карта не нужна.',
+    free_f1:'2 файла', free_f2:'1 000 строк', free_f3:'10 шагов конвейера',
+    free_f4:'1 конвейер', free_f5:'Без экспорта', free_f6:'Без ИИ', free_f7:'Без планировщика',
+    plan_pro:'Pro', plan_pro_desc:'Всё необходимое для серьёзной работы с данными.',
+    per_year:'/ год',
+    pro_f1:'Неограниченные файлы и строки', pro_f2:'Неограниченные шаги и конвейеры',
+    pro_f3:'Все форматы экспорта', pro_f4:'ИИ-конструктор конвейеров',
+    pro_f5:'Планировщик', pro_f6:'Трассировка строк', pro_f7:'Приоритетная поддержка',
+    btn_download_free:'⬇ Скачать бесплатно', btn_subscribe:'⚡ Подписаться $39/год',
+    dl_title:'Скачать Flowcel', dl_sub:'Бесплатно. Аккаунт не нужен.',
+    dl_ver:'v1.0.0 · Intel и Apple Silicon', dl_ver_win:'v1.0.0 · 64-bit',
+    footer_support:'Поддержка', footer_manage:'Управление подпиской', footer_privacy:'Политика конфиденциальности', footer_terms:'Условия использования',
+  },
+  hy: {
+    nav_features:'Հնարավորություններ', nav_pricing:'Գներ', nav_download:'Ներբեռնել',
+    badge:'100% տեղական մշակում',
+    hero_title:'Մշակե՛ք տվյալները<br><span>առանց ամպի</span>',
+    hero_sub:'Կառուցեք հզոր տվյալների խողովակաշարեր տեսողականորեն։ Ձեր ֆայլերը երբեք չեն հեռանում ձեր համակարգչից։',
+    btn_download:'⬇ Ներբեռնել անվճար', btn_pricing:'Գներ',
+    features_title:'Անհրաժեշտ ամեն ինչ',
+    features_sub:'Տվյալների մշակման ամբողջական գործիքակազմ, որն աշխատում է ամբողջությամբ ձեր համակարգչում։',
+    f1_title:'100% գաղտնի', f1_desc:'Ձեր տվյալները երբեք չեն հեռանում ձեր համակարգչից։',
+    f2_title:'Շատ արագ', f2_desc:'Հիմնված pandas-ի վրա — մշակեք միլիոնավոր տողեր տեղականորեն։',
+    f3_title:'Տեսողական խողովակաշարեր', f3_desc:'Կառուցեք բազմաքայլ խողովակաշարեր տեսողականորեն։ Ծրագրավորում պետք չէ։',
+    f4_title:'Բոլոր ձևաչափերը', f4_desc:'Excel, CSV, JSON, XML, Parquet, SQLite, ODS, HTML։',
+    f5_title:'AI-հիմնված', f5_desc:'Նկարագրեք խողովակաշարը հասարակ լեզվով — AI-ն կկառուցի ձեզ համար։',
+    f6_title:'Ժամանակացույց', f6_desc:'Ավտոմատացրեք խողովակաշարի գործարկումները ժամանակացույցով։',
+    pricing_title:'Պարզ գներ', pricing_sub:'Սկսեք անվճար, թարմացրեք երբ պետք է։',
+    plan_free:'Անվճար', plan_free_desc:'Հավիտյան անվճար, քարտ պետք չէ։',
+    free_f1:'2 ֆայл', free_f2:'1 000 տող', free_f3:'10 քայլ',
+    free_f4:'1 խողովակաշար', free_f5:'Արտահանում չկա', free_f6:'AI չկա', free_f7:'Ժամանակացույց չկա',
+    plan_pro:'Pro', plan_pro_desc:'Ամեն ինչ լուրջ տվյալների աշխատանքի համար։',
+    per_year:'/ տարի',
+    pro_f1:'Անսահման ֆայլեր և տողեր', pro_f2:'Անսահման քայլեր և խողովակաշարեր',
+    pro_f3:'Բոլոր արտահանման ձևաչափերը', pro_f4:'AI խողովակաշար կառուցող',
+    pro_f5:'Ժամանակացույց', pro_f6:'Տողի հետագծում', pro_f7:'Առաջնահերթ աջակցություն',
+    btn_download_free:'⬇ Ներբեռնել անվճար', btn_subscribe:'⚡ Բաժանորդագրվել $39/տարի',
+    dl_title:'Ներբեռնել Flowcel', dl_sub:'Անվճար ներբեռնում։ Հաշիվ պետք չէ։',
+    dl_ver:'v1.0.0 · Intel և Apple Silicon', dl_ver_win:'v1.0.0 · 64-bit',
+    footer_support:'Աջակցություն', footer_manage:'Կառավարել բաժանորդագրությունը', footer_privacy:'Գաղտնիության քաղաքականություն', footer_terms:'Պայմաններ և դրույթներ',
+  }
+};
+
+let LANG = localStorage.getItem('landing-lang') || 'en';
+
+function setLang(l) {
+  LANG = l;
+  localStorage.setItem('landing-lang', l);
+  document.querySelectorAll('.lang-sw button').forEach(b => b.classList.toggle('active', b.id === 'lb-' + l));
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const v = TRANSLATIONS[l]?.[el.dataset.t];
+    if (v) el.innerHTML = v;
+  });
+}
+setLang(LANG);
+</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Privacy Policy — Flowcel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0F172A;
+            --card: #1E293B;
+            --card2: #263045;
+            --border: #334155;
+            --text: #E2E8F0;
+            --muted: #64748B;
+            --muted2: #94A3B8;
+            --accent: #3B82F6;
+            --accent2: #60A5FA;
+            --font: 'Inter', system-ui, sans-serif;
+            --r: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        a {
+            color: var(--accent2);
+        }
+
+        nav {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent2);
+            text-decoration: none;
+        }
+
+        .lang-sw {
+            display: flex;
+            gap: 4px;
+        }
+
+        .lang-sw button {
+            background: none;
+            border: 1px solid transparent;
+            color: var(--muted);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: var(--font);
+            transition: all .15s;
+        }
+
+        .lang-sw button.active {
+            border-color: var(--accent);
+            color: var(--accent2);
+        }
+
+        .page {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 5% 80px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -.02em;
+        }
+
+        .updated {
+            font-size: 13px;
+            color: var(--muted2);
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 36px 0 12px;
+            color: var(--text);
+        }
+
+        p {
+            color: var(--muted2);
+            margin-bottom: 14px;
+        }
+
+        ul {
+            color: var(--muted2);
+            padding-left: 20px;
+            margin-bottom: 14px;
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        .contact-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--r);
+            padding: 20px 24px;
+            margin-top: 48px;
+            color: var(--muted2);
+            font-size: 14px;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 5%;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--muted2);
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="index.html" class="nav-logo">✦ Flowcel</a>
+    <div class="lang-sw">
+        <button onclick="setLang('en')" id="lb-en" class="active">EN</button>
+        <button onclick="setLang('ru')" id="lb-ru">RU</button>
+        <button onclick="setLang('hy')" id="lb-hy">ՀԱՅ</button>
+    </div>
+</nav>
+
+<div class="page">
+    <h1 data-t="title">Privacy Policy</h1>
+    <div class="updated" data-t="updated">Last updated: May 14, 2026</div>
+
+    <h2 data-t="s1_title">1. Overview</h2>
+    <p data-t="s1_body">Flowcel is a local desktop application. All data processing happens entirely on your machine. We
+        do not upload, transmit, or store your data files on any server.</p>
+
+    <h2 data-t="s2_title">2. Data We Collect</h2>
+    <p data-t="s2_intro">We collect only what is strictly necessary to operate the license system:</p>
+    <ul>
+        <li data-t="s2_1"><strong>Email address</strong> — provided at purchase, used to deliver your license key and
+            send renewal notices.
+        </li>
+        <li data-t="s2_2"><strong>Machine identifier</strong> — a hashed, anonymous identifier of your device, used to
+            enforce the single-machine license activation. It cannot identify you personally.
+        </li>
+        <li data-t="s2_3"><strong>License key</strong> — stored locally on your machine and validated against our server
+            on launch.
+        </li>
+    </ul>
+    <p data-t="s2_end">We do <strong>not</strong> collect: your data files, pipeline configurations, usage analytics, or
+        any other personal information.</p>
+
+    <h2 data-t="s3_title">3. How We Use Your Data</h2>
+    <ul>
+        <li data-t="s3_1">To deliver and validate your license key.</li>
+        <li data-t="s3_2">To send subscription confirmation and renewal reminder emails.</li>
+        <li data-t="s3_3">To enforce single-machine activation.</li>
+    </ul>
+    <p data-t="s3_end">We do not sell, share, or rent your data to any third party.</p>
+
+    <h2 data-t="s4_title">4. Data Storage</h2>
+    <p data-t="s4_body">License data (email, machine ID, expiry date) is stored in Google Firebase Firestore, located in
+        the United States. Google's privacy policy applies: <a href="https://policies.google.com/privacy"
+                                                               target="_blank">policies.google.com/privacy</a>.</p>
+    <p data-t="s4_local">Your pipeline configurations and settings are stored locally on your machine in <code>~/.flowcel/</code>
+        and never transmitted to us.</p>
+
+    <h2 data-t="s5_title">5. Payments</h2>
+    <p data-t="s5_body">Payments are processed by Polar.sh, which acts as the Merchant of Record. We never receive or
+        store your payment card details. Polar.sh's privacy policy applies: <a href="https://polar.sh/legal/privacy"
+                                                                               target="_blank">polar.sh/legal/privacy</a>.
+    </p>
+
+    <h2 data-t="s6_title">6. Your Rights</h2>
+    <p data-t="s6_body">You may request deletion of your personal data (email and machine ID) at any time by contacting
+        us. We will remove your data from our systems within 7 days.</p>
+
+    <h2 data-t="s7_title">7. Changes</h2>
+    <p data-t="s7_body">We may update this policy occasionally. We will notify active subscribers by email of any
+        material changes.</p>
+
+    <div class="contact-box">
+        <strong data-t="contact_title">Contact</strong><br>
+        <span data-t="contact_body">For privacy questions or data deletion requests:</span>
+        <br><a href="mailto:octadroid2026@gmail.com">octadroid2026@gmail.com</a>
+    </div>
+</div>
+
+<footer>
+    <span>✦ Flowcel © 2026</span>
+    <div style="display:flex;gap:16px">
+        <a href="terms.html" data-t="terms">Terms & Conditions</a>
+        <a href="index.html" data-t="home">Home</a>
+    </div>
+</footer>
+
+<script>
+    const T = {
+        en: {
+            title: 'Privacy Policy',
+            updated: 'Last updated: May 14, 2026',
+            s1_title: '1. Overview',
+            s1_body: 'Flowcel is a local desktop application. All data processing happens entirely on your machine. We do not upload, transmit, or store your data files on any server.',
+            s2_title: '2. Data We Collect',
+            s2_intro: 'We collect only what is strictly necessary to operate the license system:',
+            s2_1: '<strong>Email address</strong> — provided at purchase, used to deliver your license key and send renewal notices.',
+            s2_2: '<strong>Machine identifier</strong> — a hashed, anonymous identifier of your device, used to enforce the single-machine license activation.',
+            s2_3: '<strong>License key</strong> — stored locally on your machine and validated against our server on launch.',
+            s2_end: 'We do <strong>not</strong> collect: your data files, pipeline configurations, usage analytics, or any other personal information.',
+            s3_title: '3. How We Use Your Data',
+            s3_1: 'To deliver and validate your license key.',
+            s3_2: 'To send subscription confirmation and renewal reminder emails.',
+            s3_3: 'To enforce single-machine activation.',
+            s3_end: 'We do not sell, share, or rent your data to any third party.',
+            s4_title: '4. Data Storage',
+            s4_body: 'License data (email, machine ID, expiry date) is stored in Google Firebase Firestore, located in the United States. <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.',
+            s4_local: 'Your pipeline configurations and settings are stored locally in <code>~/.flowcel/</code> and never transmitted to us.',
+            s5_title: '5. Payments',
+            s5_body: 'Payments are processed by Polar.sh. We never receive or store your payment card details. <a href="https://polar.sh/legal/privacy" target="_blank">polar.sh/legal/privacy</a>.',
+            s6_title: '6. Your Rights',
+            s6_body: 'You may request deletion of your personal data at any time by contacting us. We will remove your data within 7 days.',
+            s7_title: '7. Changes',
+            s7_body: 'We may update this policy occasionally and notify active subscribers by email.',
+            contact_title: 'Contact',
+            contact_body: 'For privacy questions or data deletion requests:',
+            terms: 'Terms & Conditions',
+            home: 'Home',
+        },
+        ru: {
+            title: 'Политика конфиденциальности',
+            updated: 'Последнее обновление: 14 мая 2026',
+            s1_title: '1. Обзор',
+            s1_body: 'Flowcel — настольное приложение с локальной обработкой данных. Вся обработка происходит на вашем компьютере. Мы не загружаем, не передаём и не храним ваши файлы на серверах.',
+            s2_title: '2. Данные, которые мы собираем',
+            s2_intro: 'Мы собираем только то, что необходимо для работы системы лицензирования:',
+            s2_1: '<strong>Адрес электронной почты</strong> — предоставляется при покупке, используется для отправки лицензионного ключа и уведомлений о продлении.',
+            s2_2: '<strong>Идентификатор устройства</strong> — хэшированный анонимный идентификатор вашего устройства.',
+            s2_3: '<strong>Лицензионный ключ</strong> — хранится локально на вашем устройстве.',
+            s2_end: 'Мы <strong>не собираем</strong>: ваши файлы, конфигурации конвейеров, аналитику и другую личную информацию.',
+            s3_title: '3. Использование данных',
+            s3_1: 'Для доставки и проверки лицензионного ключа.',
+            s3_2: 'Для отправки подтверждения подписки и напоминаний о продлении.',
+            s3_3: 'Для привязки лицензии к одному устройству.',
+            s3_end: 'Мы не продаём, не передаём и не сдаём ваши данные третьим лицам.',
+            s4_title: '4. Хранение данных',
+            s4_body: 'Данные лицензии хранятся в Google Firebase Firestore (США). <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.',
+            s4_local: 'Конфигурации конвейеров хранятся локально в <code>~/.flowcel/</code> и никогда не передаются нам.',
+            s5_title: '5. Платежи',
+            s5_body: 'Платежи обрабатываются Polar.sh. Мы никогда не получаем данные вашей карты. <a href="https://polar.sh/legal/privacy" target="_blank">polar.sh/legal/privacy</a>.',
+            s6_title: '6. Ваши права',
+            s6_body: 'Вы можете запросить удаление своих данных в любое время. Мы удалим данные в течение 7 дней.',
+            s7_title: '7. Изменения',
+            s7_body: 'Мы можем периодически обновлять эту политику и уведомлять подписчиков по электронной почте.',
+            contact_title: 'Контакт',
+            contact_body: 'По вопросам конфиденциальности и удаления данных:',
+            terms: 'Условия использования',
+            home: 'Главная',
+        },
+        hy: {
+            title: 'Գաղտնիության քաղաքականություն',
+            updated: 'Վերջին թարմացումը՝ 14 մայիսի, 2026թ.',
+            s1_title: '1. Ընդհանուր տեղեկություններ',
+            s1_body: 'Flowcel-ը տեղական աշխատասեղանի (desktop) հավելված է։ Տվյալների ամբողջ մշակումը կատարվում է բացառապես Ձեր համակարգչում։ Մենք չենք վերբեռնում, չենք փոխանցում և չենք պահում Ձեր ֆայլերը որևէ սերվերում։',
+            s2_title: '2. Հավաքագրվող տվյալներ',
+            s2_intro: 'Մենք հավաքագրում ենք միայն այն տվյալները, որոնք խիստ անհրաժեշտ են լիցենզավորման համակարգի աշխատանքի համար.',
+            s2_1: '<strong>Էլեկտրոնային փոստի հասցե</strong> — տրամադրվում է գնման պահին, օգտագործվում է լիցենզիայի բանալին ուղարկելու և բաժանորդագրության թարմացման մասին ծանուցելու համար։',
+            s2_2: '<strong>Սարքի նույնացուցիչ</strong> — Ձեր սարքի անանուն (hashed) նույնացուցիչ, որն օգտագործվում է լիցենզիայի՝ միայն մեկ սարքի վրա ակտիվացումն ապահովելու համար։',
+            s2_3: '<strong>Լիցենզիայի բանալի</strong> — պահվում է տեղական մակարդակում և ստուգվում է մեր սերվերի հետ հավելվածը բացելիս։',
+            s2_end: 'Մենք <strong>չենք</strong> հավաքագրում Ձեր տվյալների ֆայլերը, կոնֆիգուրացիաները, օգտագործման վիճակագրությունը կամ որևէ այլ անձնական տեղեկություն։',
+            s3_title: '3. Տվյալների օգտագործումը',
+            s3_1: 'Լիցենզիայի բանալու առաքման և վավերացման համար։',
+            s3_2: 'Բաժանորդագրության հաստատման և թարմացման հիշեցումներ ուղարկելու համար։',
+            s3_3: 'Մեկ սարքի վրա ակտիվացման սահմանափակումը կիրառելու համար։',
+            s3_end: 'Մենք չենք վաճառում, չենք փոխանցում և չենք վարձակալությամբ տրամադրում Ձեր տվյալները երրորդ անձանց։',
+            s4_title: '4. Տվյալների պահպանում',
+            s4_body: 'Լիցենզիայի տվյալները պահվում են Google Firebase Firestore-ում (ԱՄՆ)։ <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a>.',
+            s4_local: 'Ձեր կոնֆիգուրացիաները և կարգավորումները պահվում են տեղական մակարդակում <code>~/.flowcel/</code> թղթապանակում և երբեք չեն փոխանցվում մեզ։',
+            s5_title: '5. Վճարումներ',
+            s5_body: 'Վճարումներն իրականացվում են Polar.sh համակարգի միջոցով։ Մենք երբեք չենք ստանում կամ պահպանում Ձեր վճարային քարտի տվյալները։ <a href="https://polar.sh/legal/privacy" target="_blank">polar.sh/legal/privacy</a>.',
+            s6_title: '6. Ձեր իրավունքները',
+            s6_body: 'Դուք կարող եք ցանկացած պահի պահանջել Ձեր անձնական տվյալների ջնջում՝ կապ հաստատելով մեզ հետ։ Մենք կհեռացնենք տվյալները 7 օրվա ընթացքում։',
+            s7_title: '7. Փոփոխություններ',
+            s7_body: 'Մենք կարող ենք պարբերաբար թարմացնել այս քաղաքականությունը և այդ մասին կտեղեկացնենք ակտիվ բաժանորդներին էլեկտրոնային փոստի միջոցով։',
+            contact_title: 'Կապ', contact_body: 'Գաղտնիության հարցերի կամ տվյալների ջնջման հարցումների համար.',
+            terms: 'Օգտագործման պայմաններ', home: 'Գլխավոր էջ',
+        }
+    };
+    let LANG = localStorage.getItem('landing-lang') || 'en';
+
+    function setLang(l) {
+        LANG = l;
+        localStorage.setItem('landing-lang', l);
+        document.querySelectorAll('.lang-sw button').forEach(b => b.classList.toggle('active', b.id === 'lb-' + l));
+        const lang = T[l] ? l : 'en';
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const v = T[lang]?.[el.dataset.t];
+            if (v) el.innerHTML = v;
+        });
+    }
+
+    setLang(LANG);
+</script>
+</body>
+</html>

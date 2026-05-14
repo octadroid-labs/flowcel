@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Download Flowcel</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0F172A; --card:#1E293B; --card2:#263045;
+    --border:#334155; --text:#E2E8F0; --muted:#64748B; --muted2:#94A3B8;
+    --accent:#3B82F6; --accent2:#60A5FA; --green:#22C55E;
+    --font:'Inter',system-ui,sans-serif; --r:10px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font-family:var(--font);
+    font-size:15px; line-height:1.6; min-height:100vh;
+    display:flex; flex-direction:column; }
+  a { color:var(--accent2); text-decoration:none; }
+
+  nav {
+    background:rgba(15,23,42,0.95); border-bottom:1px solid var(--border);
+    padding:0 5%; display:flex; align-items:center;
+    justify-content:space-between; height:60px; flex-shrink:0;
+  }
+  .nav-logo { font-size:18px; font-weight:800; color:var(--accent2); }
+  .lang-sw { display:flex; gap:4px; }
+  .lang-sw button {
+    background:none; border:1px solid transparent; color:var(--muted);
+    padding:3px 8px; border-radius:6px; font-size:12px; cursor:pointer;
+    font-family:var(--font); transition:all .15s;
+  }
+  .lang-sw button.active { border-color:var(--accent); color:var(--accent2); }
+
+  .page { flex:1; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; padding:60px 5%; text-align:center; }
+
+  h1 { font-size:clamp(28px,5vw,48px); font-weight:800;
+    letter-spacing:-.03em; margin-bottom:12px; }
+  .sub { color:var(--muted2); font-size:16px; margin-bottom:56px; }
+
+  .dl-grid { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; }
+  .dl-card {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:14px; padding:32px 40px;
+    display:flex; flex-direction:column; align-items:center; gap:12px;
+    min-width:200px; transition:border-color .15s;
+    text-decoration:none !important;
+  }
+  .dl-card:hover { border-color:var(--accent); }
+  .dl-card.disabled { opacity:.5; cursor:not-allowed; pointer-events:none; }
+  .dl-icon { font-size:48px; }
+  .dl-os { font-size:20px; font-weight:700; color:var(--text); }
+  .dl-ver { font-size:12px; color:var(--muted); }
+  .dl-badge {
+    background:var(--accent); color:#fff; font-size:11px;
+    font-weight:700; padding:2px 10px; border-radius:999px;
+  }
+  .dl-badge.soon { background:var(--card2); color:var(--muted2); }
+
+  .requirements {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--r); padding:20px 28px;
+    max-width:520px; text-align:left; margin-bottom:40px;
+  }
+  .requirements h3 { font-size:13px; font-weight:700; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.06em; margin-bottom:12px; }
+  .req-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .req-list li { font-size:13px; color:var(--muted2); display:flex; gap:8px; }
+  .req-list li::before { content:'→'; color:var(--accent2); }
+
+  .activate-note {
+    font-size:13px; color:var(--muted2); max-width:480px;
+    background:var(--card); border:1px solid var(--border);
+    border-radius:var(--r); padding:16px 20px; line-height:1.7;
+  }
+  .activate-note strong { color:var(--text); }
+
+  footer {
+    border-top:1px solid var(--border); padding:24px 5%;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px; color:var(--muted); font-size:13px; flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">✦ Flowcel</a>
+  <div class="lang-sw">
+    <button onclick="setLang('en')" id="lb-en" class="active">EN</button>
+    <button onclick="setLang('ru')" id="lb-ru">RU</button>
+    <button onclick="setLang('hy')" id="lb-hy">ՀԱՅ</button>
+  </div>
+</nav>
+
+<div class="page">
+  <h1 data-t="title">Download Flowcel</h1>
+  <p class="sub" data-t="sub">Free to download. Upgrade to Pro inside the app.</p>
+
+  <div class="dl-grid">
+    <a href="https://github.com/octadroidlabs/flowcel/releases/latest/download/Flowcel-mac.dmg" class="dl-card disabled" id="mac-btn">
+      <div class="dl-icon">🍎</div>
+      <div class="dl-os">macOS</div>
+      <div class="dl-ver" data-t="mac_ver">Intel & Apple Silicon</div>
+      <div class="dl-badge soon" data-t="coming_soon">Coming soon</div>
+    </a>
+    <a href="https://github.com/octadroidlabs/flowcel/releases/latest/download/Flowcel-win.exe" class="dl-card disabled" id="win-btn">
+      <div class="dl-icon">🪟</div>
+      <div class="dl-os">Windows</div>
+      <div class="dl-ver" data-t="win_ver">64-bit</div>
+      <div class="dl-badge soon" data-t="coming_soon">Coming soon</div>
+    </a>
+  </div>
+
+  <div class="requirements">
+    <h3 data-t="req_title">System Requirements</h3>
+    <ul class="req-list">
+      <li data-t="req1">macOS 11+ or Windows 10/11</li>
+      <li data-t="req2">4 GB RAM minimum (8 GB recommended)</li>
+      <li data-t="req3">200 MB disk space</li>
+      <li data-t="req4">Internet connection for license activation only</li>
+    </ul>
+  </div>
+
+  <div class="activate-note" data-t="activate_note">
+    <strong>How to activate Pro:</strong> Download and open Flowcel → click <strong>⚡ Free</strong> in the top right → enter your license key → click Activate.
+  </div>
+</div>
+
+<footer>
+  <span>✦ Flowcel © 2026</span>
+  <a href="mailto:octadroid2026@gmail.com" data-t="support">Support</a>
+</footer>
+
+<script>
+const TRANSLATIONS = {
+  en: {
+    title:'Download Flowcel', sub:'Free to download. Upgrade to Pro inside the app.',
+    mac_ver:'Intel & Apple Silicon', win_ver:'64-bit',
+    coming_soon:'Coming soon',
+    req_title:'System Requirements',
+    req1:'macOS 11+ or Windows (64-bit)',
+    req2:'4 GB RAM minimum (8 GB recommended)',
+    req3:'200 MB disk space',
+    req4:'Internet connection for license activation only',
+    activate_note:'<strong>How to activate Pro:</strong> Download and open Flowcel → click <strong>⚡ Free</strong> in the top right → enter your license key → click Activate.',
+    support:'Support',
+  },
+  ru: {
+    title:'Скачать Flowcel', sub:'Бесплатно. Перейдите на Pro внутри приложения.',
+    mac_ver:'Intel и Apple Silicon', win_ver:'64-bit',
+    coming_soon:'Скоро',
+    req_title:'Системные требования',
+    req1:'macOS 11+ или Windows (64-bit)',
+    req2:'4 ГБ ОЗУ минимум (рекомендуется 8 ГБ)',
+    req3:'200 МБ дискового пространства',
+    req4:'Интернет только для активации лицензии',
+    activate_note:'<strong>Как активировать Pro:</strong> Скачайте и откройте Flowcel → нажмите <strong>⚡ Free</strong> справа вверху → введите лицензионный ключ → нажмите Активировать.',
+    support:'Поддержка',
+  },
+  hy: {
+    title:'Ներբեռնել Flowcel', sub:'Անվճար ներբեռնում։ Pro-ն ակտիվացրեք հավելվածի ներսում։',
+    mac_ver:'Intel և Apple Silicon', win_ver:'64-bit',
+    coming_soon:'Շուտով',
+    req_title:'Համակարգային պահանջներ',
+    req1:'macOS 11+ կամ Windows (64-bit)',
+    req2:'4 ԳԲ RAM նվազագույն (8 ԳԲ խորհուրդ է տրվում)',
+    req3:'200 ՄԲ սկավառակի տարածք',
+    req4:'Ինտերնետ կապ միայն լիցենզիայի ակտիվացման համար',
+    activate_note:'<strong>Ինչպես ակտիվացնել Pro-ն.</strong> Ներբեռնեք և բացեք Flowcel → սեղմեք <strong>⚡ Free</strong> վերևի աջ անկյունում → մուտքագրեք լիցենզիայի բանալին → սեղմեք Ակտիվացնել։',
+    support:'Աջակցություն',
+  }
+};
+
+let LANG = localStorage.getItem('landing-lang') || 'en';
+
+function setLang(l) {
+  LANG = l;
+  localStorage.setItem('landing-lang', l);
+  document.querySelectorAll('.lang-sw button').forEach(b => b.classList.toggle('active', b.id === 'lb-' + l));
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const v = TRANSLATIONS[l]?.[el.dataset.t];
+    if (v) el.innerHTML = v;
+  });
+}
+setLang(LANG);
+</script>
+</body>
+</html>
